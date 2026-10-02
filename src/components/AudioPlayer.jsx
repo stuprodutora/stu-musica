@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import WaveSurfer from 'wavesurfer.js'
 import { useMusicPlayer, useProgresso, formatarTempo } from '../contexts/MusicPlayerContext'
+import { carregarPicos } from '../lib/picos'
 import { IconePlay, IconePause, Spinner } from './Icones'
 
 /*
@@ -12,9 +13,15 @@ import { IconePlay, IconePause, Spinner } from './Icones'
  * dele a cada quadro. Clicar ou arrastar na onda manda o player global tocar
  * a partir daquele ponto.
  *
- * A onda só é criada quando o componente entra na tela (o wavesurfer baixa e
- * decodifica o arquivo inteiro), e os picos ficam em cache por URL: voltar a
- * uma página já visitada desenha a onda na hora, sem baixar de novo.
+ * TRÁFEGO DO SUPABASE — leia antes de mexer. Para desenhar sozinho, o
+ * wavesurfer baixa o áudio INTEIRO. Isso não pode acontecer só porque o
+ * player apareceu na tela: no /musicas eram ~12 MB por visita, e a cota de
+ * 5 GB/mês é dividida com o produtorastu.com. A onda sai, nesta ordem, de:
+ *   1. public/picos.json (Vercel, nada do Supabase) — `npm run picos`;
+ *   2. picos já calculados nesta visita (cache em memória);
+ *   3. o próprio áudio, mas SÓ depois que alguém apertou play nesta faixa —
+ *      nessa hora ele já está sendo baixado para tocar.
+ * Até lá, um esqueleto parado ocupa o lugar da onda.
  *
  * Uma instância desenha UMA faixa: para trocar de faixa, troque o `key`.
  */
@@ -42,6 +49,15 @@ export default function AudioPlayer({ faixa, fila, altura = 64 }) {
   const [duracao, setDuracao] = useState(() => cachePicos.get(faixa.audio_url)?.duration || 0)
   const { tempo } = useProgresso(ativa)
 
+  // Picos do arquivo: undefined = ainda carregando, null = faixa sem picos
+  const [prontos, setProntos] = useState(undefined)
+  // Trava: depois do primeiro play, esta faixa pode baixar o áudio para a onda
+  const [tocouAqui, setTocouAqui] = useState(false)
+  if (ativa && !tocouAqui) setTocouAqui(true)
+
+  const podeCriar = naTela && prontos !== undefined
+    && (!!prontos || cachePicos.has(faixa.audio_url) || tocouAqui)
+
   // Ref para o handler de interação ler sempre o estado atual
   const interacaoRef = useRef(null)
   useEffect(() => {
@@ -66,16 +82,26 @@ export default function AudioPlayer({ faixa, fila, altura = 64 }) {
     return () => io.disconnect()
   }, [naTela])
 
+  // ── Picos pré-calculados (um JSON pequeno, da Vercel) ──────────────────────
+  useEffect(() => {
+    if (!naTela) return
+    let vivo = true
+    carregarPicos().then(mapa => { if (vivo) setProntos(mapa[faixa.audio_url] || null) })
+    return () => { vivo = false }
+  }, [naTela, faixa.audio_url])
+
   // ── Cria o wavesurfer ─────────────────────────────────────────────────────
   useEffect(() => {
-    if (!naTela || !ondaRef.current || !faixa.audio_url) return
+    if (!podeCriar || !ondaRef.current || !faixa.audio_url) return
 
-    const cache = cachePicos.get(faixa.audio_url)
+    const cache = prontos
+      ? { peaks: [prontos.p.map(v => v / 100)], duration: prontos.d }
+      : cachePicos.get(faixa.audio_url)
     const espelho = document.createElement('audio')
     espelho.muted = true
-    // Sem cache, o wavesurfer passa o blob baixado para este elemento e espera
-    // os metadados dele — 'metadata' é local, não gera download extra. Com
-    // cache, a duração já vem pronta e o elemento nem precisa carregar.
+    // Com picos, a duração já vem pronta: 'none' garante que este elemento
+    // nunca busca o arquivo. Sem picos (só depois do play), o wavesurfer passa
+    // o blob baixado para cá e espera os metadados — local, sem download extra.
     espelho.preload = cache ? 'none' : 'metadata'
 
     const ws = WaveSurfer.create({
@@ -113,7 +139,7 @@ export default function AudioPlayer({ faixa, fila, altura = 64 }) {
       ws.destroy()
       espelho.removeAttribute('src')
     }
-  }, [naTela, faixa.audio_url, altura])
+  }, [podeCriar, prontos, faixa.audio_url, altura])
 
   // ── Espelha o tempo do player global ──────────────────────────────────────
   useEffect(() => {
@@ -160,9 +186,14 @@ export default function AudioPlayer({ faixa, fila, altura = 64 }) {
       </button>
 
       <div className="ap-onda-caixa">
-        <div className="ap-onda-area" style={{ height: altura }}>
+        <div
+          className={`ap-onda-area${pronta ? '' : ' sem-onda'}`}
+          style={{ height: altura }}
+          // Sem onda ainda, a área inteira serve de botão de play
+          onClick={pronta ? undefined : () => alternar(faixa, fila)}
+        >
         {!pronta && (
-          <div className="ap-esqueleto" aria-hidden="true">
+          <div className={`ap-esqueleto${prontos === null && !tocouAqui ? ' parado' : ''}`} aria-hidden="true">
             {falhou
               ? <span className="ap-aviso">Onda indisponível — o play continua funcionando</span>
               : Array.from({ length: 56 }).map((_, i) => (
@@ -179,7 +210,7 @@ export default function AudioPlayer({ faixa, fila, altura = 64 }) {
         </div>
         <div className="ap-tempos">
           <span className={ativa ? 'atual' : ''}>{formatarTempo(ativa ? tempo : 0)}</span>
-          <span>{duracao ? formatarTempo(duracao) : '—'}</span>
+          <span>{duracao || prontos?.d ? formatarTempo(duracao || prontos.d) : '—'}</span>
         </div>
       </div>
 
@@ -229,6 +260,8 @@ export default function AudioPlayer({ faixa, fila, altura = 64 }) {
           background: var(--stu-cream-12);
           animation: apPulso 1.1s ease-in-out infinite;
         }
+        .ap-onda-area.sem-onda { cursor: pointer; }
+        .ap-esqueleto.parado span { animation: none; height: 22%; }
         @keyframes apPulso {
           0%, 100% { height: 14%; }
           50% { height: 46%; }
