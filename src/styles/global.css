@@ -1,0 +1,391 @@
+/* ─── Fontes Magallanes ─────────────────────────────────────────────────── */
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesUltraLight.otf') format('opentype');
+  font-weight: 100;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesUltraLight-Italic.otf') format('opentype');
+  font-weight: 100;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesExtraLight.otf') format('opentype');
+  font-weight: 200;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesExtraLight-Italic.otf') format('opentype');
+  font-weight: 200;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesLight.otf') format('opentype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesLight-Italic.otf') format('opentype');
+  font-weight: 300;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesRegular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesRegular-Italic.otf') format('opentype');
+  font-weight: 400;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesMedium.otf') format('opentype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesMedium-Italic.otf') format('opentype');
+  font-weight: 500;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesBold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesBold-Italic.otf') format('opentype');
+  font-weight: 700;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesExtraBold.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesExtraBold-Italic.otf') format('opentype');
+  font-weight: 800;
+  font-style: italic;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesBlack.otf') format('opentype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Magallanes';
+  src: url('../fonts/MagallanesBlack-Italic.otf') format('opentype');
+  font-weight: 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+/* ─── Tokens ────────────────────────────────────────────────────────────── */
+:root {
+  /* Paleta STU */
+  --stu-cream: #E8E3DC;
+  --stu-orange: #CF5E2C;
+  --stu-burnt: #A33A18;
+  --stu-navy: #0C1535;
+  --stu-black: #060C1E;
+
+  /* Derivadas */
+  --stu-cream-70: rgba(232, 227, 220, 0.7);
+  --stu-cream-50: rgba(232, 227, 220, 0.5);
+  --stu-cream-30: rgba(232, 227, 220, 0.3);
+  --stu-cream-12: rgba(232, 227, 220, 0.12);
+  --stu-cream-06: rgba(232, 227, 220, 0.06);
+  --stu-orange-20: rgba(207, 94, 44, 0.2);
+  --stu-painel: rgba(6, 12, 30, 0.55);
+
+  /* Tipografia */
+  --font-display: 'Magallanes', Georgia, serif;
+
+  /* Larguras estruturais (as mesmas do site principal) */
+  --largura: 1200px;
+  --largura-texto: 900px;
+  --gutter: clamp(20px, 5vw, 48px);
+
+  /* Movimento */
+  --stu-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --stu-dur-rapida: 0.18s;
+  --stu-dur-media: 0.35s;
+  --stu-dur-longa: 0.8s;
+
+  /* Altura do player global (0 quando fechado) — ver MusicPlayerGlobal */
+  --player-h: 0px;
+}
+
+/* ─── Reset ─────────────────────────────────────────────────────────────── */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* O html é o único rolador da página. O body NÃO pode ser contêiner de
+   rolagem (nada de overflow hidden/auto/scroll nele): com dois roladores a
+   roda do mouse para de funcionar e o sticky do #stu-fundo quebra. */
+html {
+  scroll-behavior: smooth;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background-color: var(--stu-black);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  background-color: transparent; /* deixa o vídeo de fundo aparecer */
+  color: var(--stu-cream);
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.6;
+  min-height: 100vh;
+  overflow-x: clip; /* corta o que vaza sem criar rolador */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Grão de filme por cima de tudo — o toque analógico */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  opacity: 0.04;
+  pointer-events: none;
+  z-index: 9998;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 128px 128px;
+}
+
+/* Camada do vídeo de fundo (o VideoBackground renderiza aqui por portal).
+   sticky e não fixed: no quique do iOS ela acompanha o conteúdo e o vão
+   mostra a cor sólida do html, em vez do vídeo cru. Quem sai do fluxo é o
+   #root, puxado para cima por margem negativa. Não mexa nessa margem. */
+#stu-fundo {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  height: 100lvh;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+#stu-fundo:empty { display: none; }
+#stu-fundo:not(:empty) + #root {
+  margin-top: -100vh;
+  margin-top: -100lvh;
+}
+
+#root {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  /* Espaço para o player global não cobrir o fim da página */
+  padding-bottom: var(--player-h);
+  transition: padding-bottom var(--stu-dur-media) var(--stu-ease);
+}
+
+main { flex: 1; }
+
+a { color: inherit; text-decoration: none; }
+img, svg, video { display: block; max-width: 100%; }
+img { height: auto; }
+button { font: inherit; color: inherit; background: none; border: none; cursor: pointer; }
+input, textarea, select { font: inherit; color: inherit; }
+ul, ol { list-style: none; }
+
+::selection { background: var(--stu-orange); color: var(--stu-cream); }
+
+:focus-visible {
+  outline: 1px solid var(--stu-orange);
+  outline-offset: 3px;
+}
+
+/* ─── Utilitários de layout ─────────────────────────────────────────────── */
+.container {
+  width: 100%;
+  max-width: calc(var(--largura) + var(--gutter) * 2);
+  margin: 0 auto;
+  padding: 0 var(--gutter);
+}
+.container--texto {
+  max-width: calc(var(--largura-texto) + var(--gutter) * 2);
+}
+
+.secao {
+  padding: clamp(72px, 12vw, 140px) 0;
+  position: relative;
+}
+
+/* ─── Tipografia ────────────────────────────────────────────────────────── */
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--stu-orange);
+}
+.eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: currentColor;
+}
+
+.titulo-display {
+  font-weight: 800;
+  font-size: clamp(40px, 7.5vw, 104px);
+  line-height: 0.98;
+  letter-spacing: -0.035em;
+  color: var(--stu-cream);
+}
+.titulo-secao {
+  font-weight: 800;
+  font-size: clamp(32px, 5vw, 60px);
+  line-height: 1.02;
+  letter-spacing: -0.03em;
+  color: var(--stu-cream);
+}
+/* Ênfase autoral: itálico leve em laranja */
+.acento {
+  font-style: italic;
+  font-weight: 300;
+  color: var(--stu-orange);
+  letter-spacing: -0.02em;
+}
+.lead {
+  font-size: clamp(17px, 1.6vw, 20px);
+  font-weight: 300;
+  line-height: 1.65;
+  color: var(--stu-cream-70);
+}
+
+/* ─── Botões (cantos retos, sempre) ─────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 28px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 2.4px;
+  text-transform: uppercase;
+  border: 1px solid transparent;
+  transition:
+    background var(--stu-dur-media) var(--stu-ease),
+    border-color var(--stu-dur-media) var(--stu-ease),
+    color var(--stu-dur-media) var(--stu-ease),
+    transform var(--stu-dur-rapida) var(--stu-ease);
+  white-space: nowrap;
+}
+.btn:active { transform: scale(0.98); }
+.btn svg { flex-shrink: 0; }
+
+.btn--primario {
+  background: var(--stu-orange);
+  color: var(--stu-cream);
+}
+.btn--primario:hover { background: var(--stu-burnt); }
+
+.btn--contorno {
+  border-color: var(--stu-cream-30);
+  color: var(--stu-cream);
+}
+.btn--contorno:hover {
+  border-color: var(--stu-orange);
+  color: var(--stu-orange);
+}
+
+/* ─── Etiquetas ─────────────────────────────────────────────────────────── */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 5px 10px;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  text-transform: uppercase;
+  color: var(--stu-cream-70);
+  border: 1px solid var(--stu-cream-12);
+}
+
+/* ─── Acessibilidade ────────────────────────────────────────────────────── */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Equalizador animado (faixa tocando) */
+.eq {
+  display: inline-flex;
+  align-items: flex-end;
+  gap: 2px;
+  height: 12px;
+}
+.eq span {
+  width: 3px;
+  height: 4px;
+  background: var(--stu-orange);
+  animation: eq 0.9s ease-in-out infinite;
+}
+.eq span:nth-child(2) { animation-delay: 0.25s; }
+.eq span:nth-child(3) { animation-delay: 0.5s; }
+.eq.pausado span { animation-play-state: paused; }
+@keyframes eq {
+  0%, 100% { height: 4px; }
+  50% { height: 12px; }
+}
+
+/* Quem pede menos movimento recebe menos movimento */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
