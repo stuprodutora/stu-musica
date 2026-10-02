@@ -1,4 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
+import { imagemOtimizada } from '../lib/imagem'
 import { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react'
 
 /*
@@ -173,7 +174,10 @@ export function MusicPlayerProvider({ children }) {
         title: faixaAtual.nome,
         artist: faixaAtual.artista || 'STU',
         album: faixaAtual.projetoNome || 'stu. música',
-        artwork: faixaAtual.capa ? [{ src: faixaAtual.capa, sizes: '512x512' }] : [],
+        // Capa redimensionada: a original pode ter vários MB (issue #58 do site principal)
+        artwork: faixaAtual.capa
+          ? [{ src: imagemOtimizada(faixaAtual.capa, 512, { altura: 512 }), sizes: '512x512' }]
+          : [],
       })
       navigator.mediaSession.setActionHandler('play', retomar)
       navigator.mediaSession.setActionHandler('pause', pausar)
