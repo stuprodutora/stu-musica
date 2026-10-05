@@ -3,6 +3,7 @@ import {
   linkWhatsSTU, WHATSAPP_EXIBICAO, EMAIL, INSTAGRAM, INSTAGRAM_EXIBICAO, SITE_PRINCIPAL,
 } from '../lib/contato'
 import { IconeWhatsApp, IconeInstagram, IconeEmail, IconeSeta } from './Icones'
+import { abrirPreferenciasCookies } from '../lib/analytics'
 
 export default function Footer() {
   const ano = new Date().getFullYear()
@@ -25,6 +26,10 @@ export default function Footer() {
             <Link to="/servicos">Serviços</Link>
             <Link to="/sobre">Sobre</Link>
             <Link to="/contato">Contato</Link>
+            <Link to="/privacidade">Privacidade</Link>
+            <button type="button" className="rodape-cookies" onClick={abrirPreferenciasCookies}>
+              Preferências de cookies
+            </button>
           </nav>
 
           <div className="rodape-col">
@@ -86,7 +91,15 @@ export default function Footer() {
           transition: color var(--stu-dur-rapida);
           word-break: break-word;
         }
-        .rodape-col a:hover { color: var(--stu-cream); }
+        .rodape-col a:hover, .rodape-cookies:hover { color: var(--stu-cream); }
+        /* Botão com cara de link: reabre o aviso de cookies (lib/analytics) */
+        .rodape-cookies {
+          align-self: flex-start;
+          font-size: 15px;
+          color: var(--stu-cream-70);
+          text-align: left;
+          transition: color var(--stu-dur-rapida);
+        }
         .rodape-irma {
           display: flex;
           justify-content: space-between;

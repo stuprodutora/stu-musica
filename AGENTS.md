@@ -42,21 +42,35 @@ das respostas de `*.supabase.co` no DevTools (aba Network, filtro
 `supabase.co`) rolando a página inteira sem tocar nada. O número precisa
 ficar na casa das centenas de KB.
 
-## 2. O player
+## 2. LGPD — Google Analytics só com consentimento
+
+- **Nunca cole o snippet do GA no `index.html`.** Ele carregaria o GA e
+  gravaria cookies antes de o visitante escolher. O gtag é injetado por
+  `src/lib/analytics.js` depois do "Aceitar" do `AvisoCookies`. O
+  `npm test` falha se o snippet voltar para o `index.html`.
+- "Aceitar" e "Recusar" têm o mesmo peso visual (guia de cookies da ANPD).
+- "Preferências de cookies" (rodapé e Política) revoga a qualquer momento:
+  o GA para e os cookies dele são apagados.
+- Os cookies ficam só em `musica.produtorastu.com`, nunca em
+  `.produtorastu.com`. O site principal tem consentimento próprio.
+- **Ferramenta, cookie ou dado novo?** Atualize `src/pages/Privacidade.jsx`
+  e suba `VERSAO_AVISO` em `lib/analytics.js` para perguntar de novo.
+
+## 3. O player
 
 Um único `<audio>` no site (módulo `contexts/MusicPlayerContext.jsx`), acima
 do roteador: o som continua entre páginas. O wavesurfer **não toca** — só
 desenha a onda e espelha o tempo do player global. Detalhes nos comentários
 de `components/AudioPlayer.jsx`.
 
-## 3. Dados
+## 4. Dados
 
 O recorte musical das tabelas compartilhadas vive em `src/lib/catalogo.js`
 (categorias `audio` e `producao-musical`, nenhum serviço de vídeo, ao menos
 uma faixa). Os slugs públicos de serviço não batem com os do banco — a ponte
 fica em `src/lib/servicos.js`.
 
-## 4. Identidade visual
+## 5. Identidade visual
 
 Mesmas regras do site principal: cantos retos, Magallanes, paleta navy /
 laranja / creme, larguras 1200 e 900. O `html` é o único rolador e o
