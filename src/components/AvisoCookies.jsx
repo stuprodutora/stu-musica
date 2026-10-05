@@ -75,6 +75,8 @@ export default function AvisoCookies() {
           </div>
 
           <style>{`
+            /* Espera a abertura do site (index.html) sair */
+            html.stu-loading .ck { display: none; }
             .ck {
               position: fixed;
               left: var(--gutter);
