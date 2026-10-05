@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="rodape-topo">
           <div className="rodape-marca">
             <Link to="/" className="rodape-logo" aria-label="stu. música — início">
-              <img src="/logo-nota.png" alt="stu. música" width="132" height="48" />
+              <img src="/logo-nota.png" alt="stu. música" width="70" height="26" />
             </Link>
             <p>Produção musical, arranjo e trilhas sonoras para quem leva a própria música a sério.</p>
           </div>
@@ -69,7 +69,7 @@ export default function Footer() {
           gap: 48px;
         }
         .rodape-logo { display: inline-flex; margin-bottom: 20px; }
-        .rodape-logo img { height: 48px; width: auto; }
+        .rodape-logo img { height: 26px; width: auto; } /* igual ao produtorastu.com */
         .rodape-marca p { max-width: 340px; color: var(--stu-cream-50); font-size: 15px; font-weight: 300; }
         .rodape-col { display: flex; flex-direction: column; gap: 12px; }
         .rodape-titulo {
@@ -129,7 +129,6 @@ export default function Footer() {
         }
         @media (max-width: 520px) {
           .rodape { padding-top: 64px; }
-          .rodape-logo img { height: 32px; }
           .rodape-topo { grid-template-columns: minmax(0, 1fr); gap: 36px; }
         }
       `}</style>

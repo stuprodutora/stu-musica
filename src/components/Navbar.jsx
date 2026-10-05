@@ -46,7 +46,7 @@ export default function Navbar() {
     <header className={`nav${rolou || aberto ? ' nav--solida' : ''}`}>
       <div className="nav-interno container">
         <Link to="/" className="nav-logo" aria-label="stu. música — início">
-          <img src="/logo-nota.png" alt="stu. música" width="132" height="48" />
+          <img src="/logo-nota.png" alt="stu. música" width="70" height="26" />
         </Link>
 
         <nav className="nav-links" aria-label="Principal">
@@ -135,8 +135,9 @@ export default function Navbar() {
           position: relative;
           z-index: 2;
         }
-        /* Logo stu. com nota: 48 px no desktop, 32 px no celular */
-        .nav-logo img { height: 48px; width: auto; }
+        /* Mesmo tamanho do produtorastu.com: 26 px em qualquer tela (o arquivo
+           tem o mesmo quadro do logo.png de lá, então o "stu" fica idêntico) */
+        .nav-logo img { height: 26px; width: auto; }
         .nav-links { display: flex; gap: 36px; }
         .nav-link {
           position: relative;
@@ -223,7 +224,6 @@ export default function Navbar() {
           .nav-links, .nav-whats { display: none; }
           .nav-hamburguer { display: block; }
           .nav-interno { height: 64px; }
-          .nav-logo img { height: 32px; }
         }
         @media (min-width: 861px) {
           .nav-mobile { display: none; }
