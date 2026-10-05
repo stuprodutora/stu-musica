@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import { useTitulo } from '../hooks/useTitulo'
 import {
   linkWhatsSTU, WHATSAPP_EXIBICAO, EMAIL, INSTAGRAM, INSTAGRAM_EXIBICAO,
@@ -144,7 +145,8 @@ export default function Contato() {
                 <IconeWhatsApp tamanho={18} /> Continuar no WhatsApp
               </button>
               <p className="ct-nota">
-                A mensagem abre pronta no WhatsApp para você revisar antes de enviar. Nada fica salvo aqui.
+                A mensagem abre pronta no WhatsApp para você revisar antes de enviar. Nada fica salvo aqui.{' '}
+                <Link to="/privacidade">Política de Privacidade</Link>
               </p>
             </form>
           </Revelar>
@@ -245,6 +247,8 @@ export default function Contato() {
         .ct-opcao.ativa { background: var(--stu-orange); border-color: var(--stu-orange); color: var(--stu-cream); }
         .ct-enviar { min-height: 60px; margin-top: 8px; }
         .ct-nota { font-size: 13px; color: var(--stu-cream-50); margin-top: -12px; }
+        .ct-nota a { color: var(--stu-cream-70); text-decoration: underline; text-underline-offset: 3px; }
+        .ct-nota a:hover { color: var(--stu-orange); }
 
         @media (max-width: 960px) {
           .ct-grade { grid-template-columns: minmax(0, 1fr); }

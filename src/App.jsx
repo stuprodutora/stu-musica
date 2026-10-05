@@ -7,12 +7,14 @@ import Navbar from './components/Navbar'
 import Footer from './components/Footer'
 import VideoBackground from './components/VideoBackground'
 import MusicPlayerGlobal from './components/MusicPlayerGlobal'
+import AvisoCookies from './components/AvisoCookies'
 
 import Home from './pages/Home'
 import Musicas from './pages/Musicas'
 import Servicos from './pages/Servicos'
 import Sobre from './pages/Sobre'
 import Contato from './pages/Contato'
+import Privacidade from './pages/Privacidade'
 
 // Toda troca de página abre no topo — exceto âncora (/servicos#arranjo-musical),
 // em que a própria página rola até a seção
@@ -91,10 +93,14 @@ export default function App() {
             <Route path="/servicos" element={<Servicos />} />
             <Route path="/sobre" element={<Sobre />} />
             <Route path="/contato" element={<Contato />} />
+            <Route path="/privacidade" element={<Privacidade />} />
             <Route path="*" element={<NaoEncontrada />} />
           </Route>
         </Routes>
         <MusicPlayerGlobal />
+        {/* Google Analytics só com consentimento (LGPD). Depois das rotas:
+            o título da página já está definido quando a visita é registrada */}
+        <AvisoCookies />
       </BrowserRouter>
     </MusicPlayerProvider>
   )
