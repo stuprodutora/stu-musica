@@ -14,7 +14,7 @@ export default function Footer() {
         <div className="rodape-topo">
           <div className="rodape-marca">
             <Link to="/" className="rodape-logo" aria-label="stu. música — início">
-              <img src="/logo-musica.png" alt="stu. música" width="256" height="48" />
+              <img src="/logo-nota.png" alt="stu. música" width="132" height="48" />
             </Link>
             <p>Produção musical, arranjo e trilhas sonoras para quem leva a própria música a sério.</p>
           </div>

@@ -46,7 +46,7 @@ export default function Navbar() {
     <header className={`nav${rolou || aberto ? ' nav--solida' : ''}`}>
       <div className="nav-interno container">
         <Link to="/" className="nav-logo" aria-label="stu. música — início">
-          <img src="/logo-musica.png" alt="stu. música" width="256" height="48" />
+          <img src="/logo-nota.png" alt="stu. música" width="132" height="48" />
         </Link>
 
         <nav className="nav-links" aria-label="Principal">
@@ -135,7 +135,7 @@ export default function Navbar() {
           position: relative;
           z-index: 2;
         }
-        /* Logo horizontal: 48 px no desktop, 32 px no celular (guia da marca) */
+        /* Logo stu. com nota: 48 px no desktop, 32 px no celular */
         .nav-logo img { height: 48px; width: auto; }
         .nav-links { display: flex; gap: 36px; }
         .nav-link {
