@@ -128,8 +128,9 @@ const SECOES = [
     corpo: (
       <>
         <p>
-          As estatísticas de navegação do Google Analytics ficam guardadas por <strong>2 meses</strong> e depois são
-          apagadas pelo próprio Google.
+          Os dados de navegação do Google Analytics ligados ao seu aparelho (como o identificador do cookie) ficam
+          guardados por até <strong>2 meses</strong> e depois são apagados pelo próprio Google. Ficam só os relatórios
+          agregados — totais de visitas, sem identificar ninguém.
         </p>
         <p>
           As conversas sobre projetos são mantidas enquanto durar a negociação e, se houver contratação, pelo prazo

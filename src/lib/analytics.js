@@ -21,7 +21,9 @@
 //     As visualizações são enviadas daqui (registrarPagina); com a opção
 //     ligada, cada página seria contada duas vezes.
 //   - Coleta de dados: Google Signals desligado.
-//   - Retenção de dados: 2 meses (é o que a Política de Privacidade diz).
+//   - Retenção de dados: "Event data" E "User data" em 2 meses, com "Reset on
+//     new user activity" DESLIGADO — ligado, quem volta sempre nunca chega
+//     aos 2 meses. É o que a Política de Privacidade diz.
 
 export const GA_ID = 'G-F9DZLCJG4V'
 export const VERSAO_AVISO = 1
