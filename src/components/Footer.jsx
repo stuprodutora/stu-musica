@@ -14,8 +14,7 @@ export default function Footer() {
         <div className="rodape-topo">
           <div className="rodape-marca">
             <Link to="/" className="rodape-logo" aria-label="stu. música — início">
-              <img src="/logo.png" alt="stu." width="96" height="36" />
-              <span>música</span>
+              <img src="/logo-musica.png" alt="stu. música" width="256" height="48" />
             </Link>
             <p>Produção musical, arranjo e trilhas sonoras para quem leva a própria música a sério.</p>
           </div>
@@ -69,9 +68,8 @@ export default function Footer() {
           grid-template-columns: 2fr 1fr 1.4fr;
           gap: 48px;
         }
-        .rodape-logo { display: inline-flex; align-items: flex-end; gap: 12px; margin-bottom: 20px; }
-        .rodape-logo img { height: 36px; width: auto; }
-        .rodape-logo span { font-size: 20px; font-style: italic; font-weight: 300; color: var(--stu-cream-70); line-height: 1; padding-bottom: 3px; }
+        .rodape-logo { display: inline-flex; margin-bottom: 20px; }
+        .rodape-logo img { height: 48px; width: auto; }
         .rodape-marca p { max-width: 340px; color: var(--stu-cream-50); font-size: 15px; font-weight: 300; }
         .rodape-col { display: flex; flex-direction: column; gap: 12px; }
         .rodape-titulo {
@@ -131,6 +129,7 @@ export default function Footer() {
         }
         @media (max-width: 520px) {
           .rodape { padding-top: 64px; }
+          .rodape-logo img { height: 32px; }
           .rodape-topo { grid-template-columns: minmax(0, 1fr); gap: 36px; }
         }
       `}</style>

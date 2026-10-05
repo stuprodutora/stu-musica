@@ -46,8 +46,7 @@ export default function Navbar() {
     <header className={`nav${rolou || aberto ? ' nav--solida' : ''}`}>
       <div className="nav-interno container">
         <Link to="/" className="nav-logo" aria-label="stu. música — início">
-          <img src="/logo.png" alt="stu." width="70" height="26" />
-          <span className="nav-selo">música</span>
+          <img src="/logo-musica.png" alt="stu. música" width="256" height="48" />
         </Link>
 
         <nav className="nav-links" aria-label="Principal">
@@ -132,21 +131,12 @@ export default function Navbar() {
         }
         .nav-logo {
           display: flex;
-          align-items: flex-end;
-          gap: 10px;
           margin-right: auto;
           position: relative;
           z-index: 2;
         }
-        .nav-logo img { height: 26px; width: auto; }
-        .nav-selo {
-          font-size: 15px;
-          font-style: italic;
-          font-weight: 300;
-          color: var(--stu-cream-70);
-          line-height: 1;
-          padding-bottom: 2px;
-        }
+        /* Logo horizontal: 48 px no desktop, 32 px no celular (guia da marca) */
+        .nav-logo img { height: 48px; width: auto; }
         .nav-links { display: flex; gap: 36px; }
         .nav-link {
           position: relative;
@@ -233,6 +223,7 @@ export default function Navbar() {
           .nav-links, .nav-whats { display: none; }
           .nav-hamburguer { display: block; }
           .nav-interno { height: 64px; }
+          .nav-logo img { height: 32px; }
         }
         @media (min-width: 861px) {
           .nav-mobile { display: none; }
