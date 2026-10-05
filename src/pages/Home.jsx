@@ -4,6 +4,7 @@ import { motion, useReducedMotion, useScroll, useTransform } from 'framer-motion
 import { useMusicPlayer } from '../contexts/MusicPlayerContext'
 import { useProjetosMusicais } from '../hooks/useProjetosMusicais'
 import { useTitulo } from '../hooks/useTitulo'
+import { useAberturaSaindo } from '../hooks/useAberturaSaindo'
 import { SERVICOS } from '../lib/servicos'
 import { linkWhatsSTU } from '../lib/contato'
 import AudioPlayer from '../components/AudioPlayer'
@@ -42,6 +43,10 @@ function Hero() {
   const { scrollY } = useScroll()
   const deslocamento = useTransform(scrollY, [0, 600], [0, menosMovimento ? 0 : 120])
   const opacidade = useTransform(scrollY, [0, 500], [1, menosMovimento ? 1 : 0])
+  // A entrada começa quando a abertura (index.html) abre o ponto e revela o site
+  const pronto = useAberturaSaindo()
+  const palavraOculta = menosMovimento ? { opacity: 0 } : { y: '110%' }
+  const blocoOculto = { opacity: 0, y: menosMovimento ? 0 : 16 }
 
   const linhas = [
     [{ t: 'Do primeiro' }, { t: 'acorde' }],
@@ -54,7 +59,7 @@ function Hero() {
         <motion.span
           className="eyebrow"
           initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
+          animate={pronto ? { opacity: 1 } : { opacity: 0 }}
           transition={{ duration: 0.8, delay: 0.2 }}
         >
           Produção musical · Arranjo · Trilhas
@@ -69,8 +74,8 @@ function Hero() {
                 <span key={j}>{j > 0 && ' '}<span className="hero-mascara">
                   <motion.span
                     className={p.acento ? 'acento' : undefined}
-                    initial={menosMovimento ? { opacity: 0 } : { y: '110%' }}
-                    animate={menosMovimento ? { opacity: 1 } : { y: 0 }}
+                    initial={palavraOculta}
+                    animate={pronto ? (menosMovimento ? { opacity: 1 } : { y: 0 }) : palavraOculta}
                     transition={{ duration: 1.1, delay: 0.35 + (i * 2 + j) * 0.12, ease: EASE }}
                   >
                     {p.t}
@@ -83,8 +88,8 @@ function Hero() {
 
         <motion.p
           className="lead hero-lead"
-          initial={{ opacity: 0, y: menosMovimento ? 0 : 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={blocoOculto}
+          animate={pronto ? { opacity: 1, y: 0 } : blocoOculto}
           transition={{ duration: 0.9, delay: 1, ease: EASE }}
         >
           Para artistas, bandas e compositores que querem ouvir a própria música
@@ -93,8 +98,8 @@ function Hero() {
 
         <motion.div
           className="hero-acoes"
-          initial={{ opacity: 0, y: menosMovimento ? 0 : 16 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={blocoOculto}
+          animate={pronto ? { opacity: 1, y: 0 } : blocoOculto}
           transition={{ duration: 0.9, delay: 1.15, ease: EASE }}
         >
           <Link to="/musicas" className="btn btn--primario">
