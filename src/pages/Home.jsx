@@ -205,7 +205,7 @@ function Destaques() {
   const [escolhidaId, setEscolhidaId] = useState(null)
 
   // Primeira faixa dos projetos em destaque; depois, música antes de trilha
-  // e audiobook (a home fala com artistas). O sort é estável: dentro de cada
+  // (a home fala com artistas). O sort é estável: dentro de cada
   // grupo vale a prioridade do admin.
   const faixas = useMemo(() => {
     const peso = p => (p.destaque ? 0 : 2) + (p.tipo === 'musica' ? 0 : 1)

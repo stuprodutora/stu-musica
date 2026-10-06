@@ -10,7 +10,7 @@ import CtaWhatsApp from '../components/CtaWhatsApp'
 import { IconePlay, IconePause } from '../components/Icones'
 
 export default function Musicas() {
-  useTitulo('Músicas', 'Singles, EPs, trilhas sonoras e audiobooks produzidos pela STU. Aperte o play.')
+  useTitulo('Músicas', 'Singles, EPs e trilhas sonoras produzidos pela STU. Aperte o play.')
   const { projetos, carregando, erro } = useProjetosMusicais()
   const { faixaAtual, tocando, tocar, pausar, retomar } = useMusicPlayer()
   const [filtro, setFiltro] = useState('todos')
@@ -52,7 +52,7 @@ export default function Musicas() {
               Músicas que <span className="acento">passaram por aqui.</span>
             </h1>
             <p className="lead mus-lead">
-              Singles, EPs, trilhas e audiobooks — cada um com a sua história e o seu som.
+              Singles, EPs e trilhas sonoras — cada um com a sua história e o seu som.
               Escolha uma faixa e deixe tocando enquanto navega: o player segue com você.
             </p>
           </Revelar>

@@ -7,7 +7,7 @@ import {
 import Revelar from '../components/Revelar'
 import { IconeWhatsApp, IconeInstagram, IconeEmail, IconeSeta } from '../components/Icones'
 
-const TIPOS_PROJETO = ['Single', 'EP ou álbum', 'Arranjo', 'Trilha sonora', 'Audiobook', 'Ainda não sei']
+const TIPOS_PROJETO = ['Single', 'EP ou álbum', 'Arranjo', 'Trilha sonora', 'Ainda não sei']
 const ETAPAS = ['Só a ideia', 'Tenho uma demo', 'Já está gravado']
 
 /*
@@ -16,7 +16,7 @@ const ETAPAS = ['Só a ideia', 'Tenho uma demo', 'Já está gravado']
  * começa com o contexto todo, sem dado pessoal guardado em lugar nenhum.
  */
 export default function Contato() {
-  useTitulo('Contato', 'Conte sobre a sua música. Produção, arranjo, trilhas e audiobooks — fale com a STU pelo WhatsApp.')
+  useTitulo('Contato', 'Conte sobre a sua música. Produção, arranjo e trilhas sonoras — fale com a STU pelo WhatsApp.')
 
   const [form, setForm] = useState({ nome: '', artista: '', tipos: [], etapa: '', referencia: '', mensagem: '' })
   const [tentou, setTentou] = useState(false)

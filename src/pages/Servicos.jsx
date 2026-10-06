@@ -4,15 +4,15 @@ import { useMusicPlayer } from '../contexts/MusicPlayerContext'
 import { useProjetosMusicais } from '../hooks/useProjetosMusicais'
 import { useTitulo } from '../hooks/useTitulo'
 import { carregarDescricoesServicos } from '../lib/catalogo'
-import { SERVICOS, SLUGS_BANCO, mensagemOrcamento } from '../lib/servicos'
+import { SERVICOS, SLUGS_BANCO, AUDIOBOOK_URL, mensagemOrcamento } from '../lib/servicos'
 import { linkWhatsSTU } from '../lib/contato'
 import Capa from '../components/Capa'
 import Revelar from '../components/Revelar'
 import CtaWhatsApp from '../components/CtaWhatsApp'
-import { IconePlay, IconePause, IconeWhatsApp } from '../components/Icones'
+import { IconePlay, IconePause, IconeWhatsApp, IconeSeta } from '../components/Icones'
 
 export default function Servicos() {
-  useTitulo('Serviços', 'Produção musical, arranjo, trilhas sonoras e audiobooks. Conheça os serviços musicais da STU e peça um orçamento.')
+  useTitulo('Serviços', 'Produção musical, arranjo e trilhas sonoras. Conheça os serviços musicais da STU e peça um orçamento.')
   const { hash } = useLocation()
   const { projetos } = useProjetosMusicais()
   const [descricoes, setDescricoes] = useState({})
@@ -82,6 +82,21 @@ export default function Servicos() {
         />
       ))}
 
+      {/* Audiobook é atendido pelo site principal, não por aqui */}
+      <section className="sv-fora">
+        <div className="container">
+          <Revelar>
+            <a href={AUDIOBOOK_URL} target="_blank" rel="noopener noreferrer" className="sv-fora-link">
+              <span>
+                <span className="sv-fora-rotulo">Procurando audiobook?</span>
+                <strong>Gravação e produção de audiobooks ficam com a STU Produções</strong>
+              </span>
+              <IconeSeta tamanho={20} />
+            </a>
+          </Revelar>
+        </div>
+      </section>
+
       <CtaWhatsApp
         eyebrow="Não sabe por onde começar?"
         titulo={<>Conta a ideia. <span className="acento">A gente monta o caminho.</span></>}
@@ -95,7 +110,7 @@ export default function Servicos() {
         .sv-lead { max-width: 600px; margin-top: 28px; }
         .sv-indice {
           display: grid;
-          grid-template-columns: repeat(4, minmax(0, 1fr));
+          grid-template-columns: repeat(3, minmax(0, 1fr));
           margin-top: 64px;
           border-top: 1px solid var(--stu-cream-12);
         }
@@ -111,8 +126,31 @@ export default function Servicos() {
         }
         .sv-indice a span { font-size: 11px; letter-spacing: 1.5px; color: var(--stu-orange); }
         .sv-indice a:hover { color: var(--stu-cream); }
+        .sv-fora { padding: 8px 0 24px; }
+        .sv-fora-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 24px;
+          padding: 28px 0;
+          border-top: 1px solid var(--stu-cream-12);
+          border-bottom: 1px solid var(--stu-cream-12);
+          transition: color var(--stu-dur-media);
+        }
+        .sv-fora-link > span { display: flex; flex-direction: column; gap: 8px; }
+        .sv-fora-rotulo {
+          font-size: 10px;
+          font-weight: 700;
+          letter-spacing: 2.5px;
+          text-transform: uppercase;
+          color: var(--stu-orange);
+        }
+        .sv-fora-link strong { font-size: clamp(17px, 2vw, 22px); font-weight: 500; letter-spacing: -0.01em; }
+        .sv-fora-link svg { flex-shrink: 0; transition: transform 0.5s var(--stu-ease); }
+        .sv-fora-link:hover { color: var(--stu-orange); }
+        .sv-fora-link:hover svg { transform: translateX(6px); }
         @media (max-width: 760px) {
-          .sv-indice { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+          .sv-indice { grid-template-columns: minmax(0, 1fr); }
         }
       `}</style>
       <style>{CSS_SERVICO}</style>

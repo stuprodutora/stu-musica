@@ -8,7 +8,8 @@
 //   2. Nenhum serviço vinculado é da categoria `video` — captação, vídeo
 //      institucional, drone etc. ficam de fora mesmo que o projeto tenha
 //      trilha ou mixagem.
-//   3. Tem ao menos uma faixa tocável. Este portfólio é um player; projeto que
+//   3. Não é audiobook: esse serviço fica no produtorastu.com.
+//   4. Tem ao menos uma faixa tocável. Este portfólio é um player; projeto que
 //      só tem vídeo embedado não tem o que tocar aqui.
 //
 // `projeto_faixas` é a fonte única do áudio (mesma regra do site principal).
@@ -18,6 +19,7 @@ import { supabase } from './supabase'
 
 export const CATEGORIAS_MUSICAIS = ['audio', 'producao-musical']
 const CATEGORIA_EXCLUIDA = 'video'
+const SERVICO_EXCLUIDO = 'audiobook' // atendido pelo produtorastu.com
 
 // O Supabase pode devolver a relação embutida como objeto ou como array
 function slugDe(relacao) {
@@ -35,11 +37,9 @@ export function separarTitulo(titulo = '') {
 export const TIPOS = {
   musica: 'Música',
   trilha: 'Trilha sonora',
-  audiobook: 'Audiobook',
 }
 
 function tipoDoProjeto(slugsServicos) {
-  if (slugsServicos.includes('audiobook')) return 'audiobook'
   if (slugsServicos.includes('trilhas-sonoras')) return 'trilha'
   return 'musica'
 }
@@ -121,6 +121,7 @@ function normalizar(projeto) {
 function ehMusical(p) {
   return CATEGORIAS_MUSICAIS.includes(p.categoria)
     && !p.servicos.some(s => s.categoria === CATEGORIA_EXCLUIDA)
+    && !p.servicos.some(s => s.slug === SERVICO_EXCLUIDO)
     && p.faixas.length > 0
 }
 
