@@ -8,6 +8,8 @@
 // do banco: lá, "produção musical" é uma CATEGORIA e o serviço de arranjo tem
 // slug `arranjo`. `slugsBanco` faz essa ponte; `exemplo` decide quais projetos
 // do portfólio ilustram o serviço.
+//
+// Audiobook não é serviço daqui: fica no produtorastu.com (AUDIOBOOK_URL).
 
 export const SERVICOS = [
   {
@@ -58,23 +60,10 @@ export const SERVICOS = [
     entregas: ['Composição original', 'Temas e variações', 'Mixagem para entrega', 'Stems'],
     exemplo: p => p.tipo === 'trilha',
   },
-  {
-    slug: 'audiobook',
-    slugsBanco: ['audiobook'],
-    numero: '04',
-    nome: 'Audiobook',
-    chamada: 'A sua história contada com o cuidado de um disco.',
-    descricao:
-      'Gravação, direção de narração, edição, desenho de som e masterização dentro dos padrões das plataformas de audiolivro. Para quem quer que o livro seja ouvido com a mesma atenção com que foi escrito.',
-    paraQuem: [
-      'Autores independentes',
-      'Editoras',
-      'Livros infantis com trilha e efeitos',
-    ],
-    entregas: ['Gravação', 'Direção de narração', 'Edição', 'Trilha e SFX', 'Masterização'],
-    exemplo: p => p.tipo === 'audiobook',
-  },
 ]
+
+// O audiobook é atendido pelo site principal; Serviços aponta para lá
+export const AUDIOBOOK_URL = 'https://www.produtorastu.com/servicos/audiobook'
 
 export const SLUGS_BANCO = SERVICOS.flatMap(s => s.slugsBanco)
 

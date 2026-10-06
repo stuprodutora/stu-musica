@@ -66,8 +66,9 @@ de `components/AudioPlayer.jsx`.
 ## 4. Dados
 
 O recorte musical das tabelas compartilhadas vive em `src/lib/catalogo.js`
-(categorias `audio` e `producao-musical`, nenhum serviço de vídeo, ao menos
-uma faixa). Os slugs públicos de serviço não batem com os do banco — a ponte
+(categorias `audio` e `producao-musical`, nenhum serviço de vídeo, nenhum
+audiobook, ao menos uma faixa). **Audiobook é do produtorastu.com**, não
+deste site: a página de Serviços só aponta para lá (`AUDIOBOOK_URL`). Os slugs públicos de serviço não batem com os do banco — a ponte
 fica em `src/lib/servicos.js`.
 
 ## 5. Identidade visual
