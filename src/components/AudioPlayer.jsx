@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import WaveSurfer from 'wavesurfer.js'
 import { useMusicPlayer, useProgresso, formatarTempo } from '../contexts/MusicPlayerContext'
-import { carregarPicos } from '../lib/picos'
+import { picosDaFaixa } from '../lib/picos'
 import { IconePlay, IconePause, Spinner } from './Icones'
 
 /*
@@ -17,7 +17,9 @@ import { IconePlay, IconePause, Spinner } from './Icones'
  * wavesurfer baixa o áudio INTEIRO. Isso não pode acontecer só porque o
  * player apareceu na tela: no /musicas eram ~12 MB por visita, e a cota de
  * 5 GB/mês é dividida com o produtorastu.com. A onda sai, nesta ordem, de:
- *   1. public/picos.json (Vercel, nada do Supabase) — `npm run picos`;
+ *   1. picos prontos (lib/picos.js): public/picos.json, da Vercel, nas faixas
+ *      antigas; projeto_faixas.picos (~2 KB), gravado pelo painel no upload,
+ *      nas faixas novas;
  *   2. picos já calculados nesta visita (cache em memória);
  *   3. o próprio áudio, mas SÓ depois que alguém apertou play nesta faixa —
  *      nessa hora ele já está sendo baixado para tocar.
@@ -82,13 +84,15 @@ export default function AudioPlayer({ faixa, fila, altura = 64 }) {
     return () => io.disconnect()
   }, [naTela])
 
-  // ── Picos pré-calculados (um JSON pequeno, da Vercel) ──────────────────────
+  // ── Picos prontos: picos.json (Vercel) ou, nas faixas novas, o banco ──────
   useEffect(() => {
     if (!naTela) return
     let vivo = true
-    carregarPicos().then(mapa => { if (vivo) setProntos(mapa[faixa.audio_url] || null) })
+    picosDaFaixa(faixa).then(picos => { if (vivo) setProntos(picos || null) })
     return () => { vivo = false }
-  }, [naTela, faixa.audio_url])
+    // faixa.id e audio_url identificam a faixa; o objeto muda a cada render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [naTela, faixa.id, faixa.audio_url])
 
   // ── Cria o wavesurfer ─────────────────────────────────────────────────────
   useEffect(() => {

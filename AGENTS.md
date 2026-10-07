@@ -20,11 +20,14 @@ Regras:
 - **Imagem sempre por `imagemOtimizada()`** (`src/lib/imagem.js`) ou pelo
   componente `Capa`. Nunca `thumbnail_url` direto num `src` — nem em lugares
   "invisíveis", como a capa da Media Session (tela de bloqueio).
-- **Waveform sai de `public/picos.json`**, servido pela Vercel. O wavesurfer
+- **Waveform sai de `public/picos.json`** (Vercel) **ou de `projeto_faixas.picos`**
+  (gravado pelo painel do produtorastu.com no upload; ~2 KB, buscado só para
+  a faixa na tela) — ver `src/lib/picos.js`. O wavesurfer
   baixa o áudio inteiro para desenhar sozinho; antes dos picos prontos, o
   `/musicas` custava 12,5 MB por visita sem ninguém tocar nada.
-- **Cadastrou ou trocou faixa no painel? Rode `npm run picos`** e faça commit
-  do `public/picos.json`. É incremental: baixa só as faixas novas, uma vez.
+- **Faixa enviada pelo painel já tem a onda** (calculada no navegador de quem
+  sobe o arquivo). `npm run picos` só é preciso para faixa que entrou por outro
+  caminho; ele atualiza o `public/picos.json`. É incremental: baixa só as faixas novas, uma vez.
   Requer ffmpeg. Faixa sem picos continua funcionando: a onda aparece quando
   ela toca (o áudio já está descendo nessa hora).
 
@@ -65,9 +68,11 @@ de `components/AudioPlayer.jsx`.
 
 ## 4. Dados
 
-O recorte musical das tabelas compartilhadas vive em `src/lib/catalogo.js`
-(categorias `audio` e `producao-musical`, nenhum serviço de vídeo, nenhum
-audiobook, ao menos uma faixa). **Audiobook é do produtorastu.com**, não
+**Quem decide o que aparece aqui é o painel**: `projetos.site = 'musica'`
+(área "stu. música" do /admin do produtorastu.com — e esses projetos não
+aparecem mais lá). Além disso: ao menos uma faixa e nenhum audiobook. Antes
+da coluna existir, vale o recorte antigo (categorias `audio` e
+`producao-musical`, sem vídeo). Tudo em `src/lib/catalogo.js`. **Audiobook é do produtorastu.com**, não
 deste site: a página de Serviços só aponta para lá (`AUDIOBOOK_URL`). Os slugs públicos de serviço não batem com os do banco — a ponte
 fica em `src/lib/servicos.js`.
 
