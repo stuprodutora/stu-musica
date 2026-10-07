@@ -1,7 +1,13 @@
 // ─── Catálogo musical ───────────────────────────────────────────────────────
 //
 // Este site lê as mesmas tabelas do produtorastu.com, mas só o recorte
-// musical. As regras do recorte vivem aqui, num lugar só:
+// musical. As regras do recorte vivem aqui, num lugar só.
+//
+// Quem decide é o painel: projetos.site = 'musica' (área "stu. música" do
+// /admin do produtorastu.com; migração 2026-10-07_site_musica.sql lá). Além
+// disso, o projeto precisa ter faixa tocável e não ser audiobook.
+//
+// Enquanto a coluna `site` não existir no banco, vale o recorte antigo:
 //
 //   1. O projeto pertence a uma categoria musical (`audio` ou
 //      `producao-musical` — os singles e EPs ficam nesta última).
@@ -19,6 +25,7 @@ import { supabase } from './supabase'
 
 export const CATEGORIAS_MUSICAIS = ['audio', 'producao-musical']
 const CATEGORIA_EXCLUIDA = 'video'
+const SITE_MUSICA = 'musica'
 const SERVICO_EXCLUIDO = 'audiobook' // atendido pelo produtorastu.com
 
 // O Supabase pode devolver a relação embutida como objeto ou como array
@@ -102,6 +109,8 @@ function normalizar(projeto) {
 
   return {
     id: projeto.id,
+    // undefined enquanto a coluna não existe (ver ehMusical)
+    site: projeto.site,
     slug: projeto.slug || String(projeto.id),
     nome,
     formato,
@@ -119,10 +128,13 @@ function normalizar(projeto) {
 }
 
 function ehMusical(p) {
+  if (p.faixas.length === 0) return false
+  if (p.servicos.some(s => s.slug === SERVICO_EXCLUIDO)) return false
+  // Com a coluna `site` no banco, a escolha do painel manda
+  if (p.site !== undefined) return p.site === SITE_MUSICA
+  // Sem ela (antes da migração), o recorte por categoria e serviço
   return CATEGORIAS_MUSICAIS.includes(p.categoria)
     && !p.servicos.some(s => s.categoria === CATEGORIA_EXCLUIDA)
-    && !p.servicos.some(s => s.slug === SERVICO_EXCLUIDO)
-    && p.faixas.length > 0
 }
 
 // Prioridade manual (ordem_exibicao, a mesma do admin) > destaque > mais recente.
@@ -141,7 +153,7 @@ export function carregarProjetosMusicais() {
   if (!pedido) {
     pedido = supabase
       .from('projetos')
-      .select('*, categorias(slug), projeto_faixas(*), projeto_servicos(servicos(id, nome, slug, categorias(slug)))')
+      .select('*, categorias(slug), projeto_faixas(id, nome, audio_url, spotify_url, ordem), projeto_servicos(servicos(id, nome, slug, categorias(slug)))')
       .eq('publicado', true)
       .then(({ data, error }) => {
         if (error) throw error
