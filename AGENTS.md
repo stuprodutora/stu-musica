@@ -5,6 +5,11 @@ Site musica.produtorastu.com: React 19 + Vite, deploy na Vercel a partir de
 
 Toda mudança entra por PR — mesclar em `main` é publicar.
 
+> **Nome da marca: Produtora STU.** O nome antigo (STU + Produções, com ou
+> sem acento) não volta em nada que o público veja: título, texto, e-mail,
+> dados estruturados, nome alternativo. Lido em voz alta, soa como "stupro".
+> `stu-producoes` sobrevive só como nome técnico de repositório e pasta.
+
 ---
 
 ## 1. Tráfego do Supabase — a regra que não se negocia

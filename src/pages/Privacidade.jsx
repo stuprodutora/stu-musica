@@ -23,7 +23,7 @@ const SECOES = [
     corpo: (
       <>
         <p>
-          O stu. música é o braço musical da STU Produções, nome comercial de{' '}
+          O stu. música é o braço musical da Produtora STU, nome comercial de{' '}
           <strong>48.716.838 THOMAS SANTOS CASSOL</strong>, CNPJ <strong>48.716.838/0001-02</strong>, com sede em
           Porto Alegre — RS. É quem decide como os dados pessoais recebidos por este site são usados (o{' '}
           <em>controlador</em>, nos termos da Lei Geral de Proteção de Dados — Lei nº 13.709/2018).
