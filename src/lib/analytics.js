@@ -32,6 +32,31 @@ const CHAVE = 'stu_cookies'
 const DESLIGA = `ga-disable-${GA_ID}` // chave oficial de opt-out do gtag
 const UM_ANO = 60 * 60 * 24 * 365
 
+// ── Origem da visita ────────────────────────────────────────────────────────
+// O GA4 descobre de onde veio a visita (Google Ads, campanha, rede social)
+// pela query da URL no primeiro evento: ?gclid=…, ?utm_source=…&utm_medium=…
+// Sem ela, anúncio e campanha caem como "direto".
+//
+// O GA só liga depois do "Aceitar", e o aviso só aparece depois da animação de
+// abertura: se o visitante já trocou de página, a query da chegada sumiu da
+// barra de endereço. Por isso ela é guardada aqui, no carregamento, e vai no
+// primeiro page_view se a página atual não tiver query própria.
+
+let buscaDeEntrada = ''
+
+export function guardarEntrada(win = globalThis.window) {
+  const local = win?.location
+  buscaDeEntrada = local?.search || ''
+}
+guardarEntrada()
+
+// URL completa da página, sem a âncora (#…)
+export function urlDaPagina(pathname, win = window) {
+  const busca = win.location.search || buscaDeEntrada
+  buscaDeEntrada = '' // só a primeira página da visita herda a query da chegada
+  return win.location.origin + pathname + busca
+}
+
 // ── Escolha do visitante ────────────────────────────────────────────────────
 // Guarda a escolha, a versão do aviso e a data: o controlador precisa poder
 // demonstrar o consentimento (LGPD, art. 8º, § 2º).
@@ -92,9 +117,8 @@ export function ativarAnalytics(win = window, doc = document) {
 export function registrarPagina(pathname, win = window, doc = document) {
   if (!injetado || win[DESLIGA]) return
   win.gtag('event', 'page_view', {
-    // Só o caminho: query string e âncora ficam de fora
-    page_location: win.location.origin + pathname,
-    page_path: pathname,
+    // URL completa, com ?gclid e utm_*: é dela que o GA4 tira a origem
+    page_location: urlDaPagina(pathname, win),
     page_title: doc.title,
   })
 }

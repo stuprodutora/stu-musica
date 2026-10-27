@@ -14,7 +14,7 @@ import Revelar from '../components/Revelar'
 //
 // Controlador e contato são os mesmos da política do produtorastu.com.
 
-const ATUALIZADA_EM = '5 de outubro de 2026'
+const ATUALIZADA_EM = '27 de outubro de 2026'
 const COOKIE_PROPRIEDADE = `_ga_${GA_ID.slice(2)}`
 
 const SECOES = [
@@ -44,7 +44,7 @@ const SECOES = [
         <p>
           <strong>Navegação, só se você permitir:</strong> com o Google Analytics, registramos como o site é
           usado — páginas visitadas, tempo em cada página, tipo de aparelho e navegador, cidade aproximada e de
-          onde você chegou (uma busca, uma rede social). Não recebemos seu nome, e-mail ou telefone por esse
+          onde você chegou (uma busca, um anúncio, uma rede social). Não recebemos seu nome, e-mail ou telefone por esse
           caminho, e o Google Analytics não guarda o seu endereço IP. Sem a sua permissão, nada disso é coletado.
         </p>
         <p>
