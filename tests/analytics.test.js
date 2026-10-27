@@ -4,6 +4,7 @@ import { readFile } from 'node:fs/promises'
 import {
   GA_ID, VERSAO_AVISO, lerEscolha, gravarEscolha,
   ativarAnalytics, registrarPagina, desativarAnalytics, cookiesDoGA, dominiosDoSite,
+  guardarEntrada,
 } from '../src/lib/analytics.js'
 
 // ── Dublês de navegador ─────────────────────────────────────────────────────
@@ -88,14 +89,13 @@ test('ativar injeta o gtag uma vez, sem anúncios e com cookie só neste host', 
   assert.equal(config[2].cookie_domain, 'musica.produtorastu.com', 'nunca em .produtorastu.com (cookie do site principal)')
 })
 
-test('page_view leva só o caminho, sem query string', () => {
+test('page_view leva a URL da página e o título', () => {
   const { win, doc } = navegadorFalso()
   ativarAnalytics(win, doc)
   recomecarGtag(win)
   registrarPagina('/musicas', win, doc)
   assert.deepEqual(chamadas(win), [['event', 'page_view', {
     page_location: 'https://musica.produtorastu.com/musicas',
-    page_path: '/musicas',
     page_title: 'Músicas — stu. música',
   }]])
 })
@@ -131,4 +131,52 @@ test('reconhece só os cookies do GA', () => {
 test('domínios apagados são só os do próprio host', () => {
   assert.deepEqual(dominiosDoSite('musica.produtorastu.com'), ['', 'musica.produtorastu.com', '.musica.produtorastu.com'])
   assert.deepEqual(dominiosDoSite('localhost'), [''])
+})
+
+// ── Origem da visita (gclid, utm) ───────────────────────────────────────────
+
+function comUrl(win, caminho, busca = '', ancora = '') {
+  win.location = { ...win.location, pathname: caminho, search: busca, hash: ancora }
+  return win
+}
+
+test('page_view leva a URL completa, com gclid e utm, sem a âncora', () => {
+  const { win, doc } = navegadorFalso()
+  ativarAnalytics(win, doc)
+  recomecarGtag(win)
+  guardarEntrada(comUrl(win, '/musicas', '?gclid=Cj0KCQ&utm_source=google&utm_medium=cpc', '#topo'))
+
+  registrarPagina('/musicas', win, doc)
+  assert.equal(chamadas(win)[0][2].page_location, 'https://musica.produtorastu.com/musicas?gclid=Cj0KCQ&utm_source=google&utm_medium=cpc')
+})
+
+test('trocou de página antes de aceitar: o 1º page_view herda a query da chegada, os seguintes não', () => {
+  const { win, doc } = navegadorFalso()
+  // Chegou pelo anúncio…
+  guardarEntrada(comUrl(win, '/', '?utm_source=instagram&utm_medium=social&utm_campaign=lancamento'))
+  // …navegou (a query sumiu da barra) e só então aceitou os cookies
+  comUrl(win, '/musicas')
+  ativarAnalytics(win, doc)
+  recomecarGtag(win)
+
+  registrarPagina('/musicas', win, doc)
+  comUrl(win, '/sobre')
+  registrarPagina('/sobre', win, doc)
+
+  const urls = chamadas(win).map(c => c[2].page_location)
+  assert.deepEqual(urls, [
+    'https://musica.produtorastu.com/musicas?utm_source=instagram&utm_medium=social&utm_campaign=lancamento',
+    'https://musica.produtorastu.com/sobre',
+  ])
+})
+
+test('página com query própria usa a dela', () => {
+  const { win, doc } = navegadorFalso()
+  guardarEntrada(comUrl(win, '/', '?utm_source=google'))
+  comUrl(win, '/musicas', '?utm_source=newsletter')
+  ativarAnalytics(win, doc)
+  recomecarGtag(win)
+
+  registrarPagina('/musicas', win, doc)
+  assert.equal(chamadas(win)[0][2].page_location, 'https://musica.produtorastu.com/musicas?utm_source=newsletter')
 })
