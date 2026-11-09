@@ -46,12 +46,12 @@ export default function Footer() {
         </div>
 
         <a className="rodape-irma" href={SITE_PRINCIPAL} target="_blank" rel="noopener noreferrer">
-          <span>Áudio e vídeo para marcas? Conheça a STU Produções</span>
+          <span>Áudio e vídeo para marcas? Conheça a Produtora STU</span>
           <IconeSeta />
         </a>
 
         <div className="rodape-base">
-          <span>© {ano} STU Produções</span>
+          <span>© {ano} Produtora STU</span>
           <span>Feito com escuta.</span>
         </div>
       </div>

@@ -89,7 +89,7 @@ export default function Servicos() {
             <a href={AUDIOBOOK_URL} target="_blank" rel="noopener noreferrer" className="sv-fora-link">
               <span>
                 <span className="sv-fora-rotulo">Procurando audiobook?</span>
-                <strong>Gravação e produção de audiobooks ficam com a STU Produções</strong>
+                <strong>Gravação e produção de audiobooks ficam com a Produtora STU</strong>
               </span>
               <IconeSeta tamanho={20} />
             </a>

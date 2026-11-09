@@ -25,7 +25,7 @@ const PRINCIPIOS = [
 const NAO_ARTISTAS = ['stu', 'portfólio', 'portfolio']
 
 export default function Sobre() {
-  useTitulo('Sobre', 'O lado musical da STU Produções: produção, arranjo e trilhas sonoras com escuta e acabamento de verdade.')
+  useTitulo('Sobre', 'O lado musical da Produtora STU: produção, arranjo e trilhas sonoras com escuta e acabamento de verdade.')
   const { projetos, carregando } = useProjetosMusicais()
 
   const numeros = useMemo(() => {
@@ -66,7 +66,7 @@ export default function Sobre() {
           </Revelar>
           <Revelar className="sb-coluna" atraso={0.1}>
             <p>
-              O <strong>stu. música</strong> é o lado autoral da STU Produções: o espaço onde a gente
+              O <strong>stu. música</strong> é o lado autoral da Produtora STU: o espaço onde a gente
               produz, arranja e finaliza música para artistas, bandas e compositores, e compõe
               trilhas para quem conta histórias com imagem.
             </p>
@@ -135,7 +135,7 @@ export default function Sobre() {
           <Revelar>
             <a href={SITE_PRINCIPAL} target="_blank" rel="noopener noreferrer" className="sb-irma-link">
               <span>
-                <span className="eyebrow">STU Produções</span>
+                <span className="eyebrow">Produtora STU</span>
                 <strong>Precisa de áudio ou vídeo para uma marca?</strong>
               </span>
               <IconeSeta tamanho={22} />
