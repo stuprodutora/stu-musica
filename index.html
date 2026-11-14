@@ -457,5 +457,16 @@
     <div id="stu-fundo" aria-hidden="true"></div>
     <div id="root"></div>
     <script type="module" src="/src/main.jsx"></script>
+    <!-- Vercel Web Analytics: conta visitas sem cookie e sem gravar nada no aparelho.
+         Fica fora do aviso de cookies (o GA4 continua só com permissão).
+         Rotas privadas (/admin, /_*) não são enviadas. -->
+    <script>
+      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+      window.va('beforeSend', function (e) {
+        var p = new URL(e.url).pathname;
+        return /^\/admin(\/|$)/.test(p) || p.indexOf('/_') === 0 ? null : e;
+      });
+    </script>
+    <script defer src="/_vercel/insights/script.js"></script>
   </body>
 </html>
