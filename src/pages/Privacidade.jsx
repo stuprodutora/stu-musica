@@ -14,7 +14,7 @@ import Revelar from '../components/Revelar'
 //
 // Controlador e contato são os mesmos da política do produtorastu.com.
 
-const ATUALIZADA_EM = '27 de outubro de 2026'
+const ATUALIZADA_EM = '13 de novembro de 2026'
 const COOKIE_PROPRIEDADE = `_ga_${GA_ID.slice(2)}`
 
 const SECOES = [
@@ -46,6 +46,11 @@ const SECOES = [
           usado — páginas visitadas, tempo em cada página, tipo de aparelho e navegador, cidade aproximada e de
           onde você chegou (uma busca, um anúncio, uma rede social). Não recebemos seu nome, e-mail ou telefone por esse
           caminho, e o Google Analytics não guarda o seu endereço IP. Sem a sua permissão, nada disso é coletado.
+        </p>
+        <p>
+          <strong>Contagem de visitas, sem cookie:</strong> usamos também o Vercel Web Analytics, da empresa que
+          hospeda o site. Ele não usa cookie, não grava nada no seu aparelho e não identifica ninguém: só soma
+          visitas por página, de onde a pessoa chegou, país e tipo de aparelho.
         </p>
         <p>
           <strong>Dados técnicos da conexão:</strong> como em qualquer site, os serviços que entregam as páginas e
