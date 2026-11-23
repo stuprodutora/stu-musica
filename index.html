@@ -461,11 +461,34 @@
          Fica fora do aviso de cookies (o GA4 continua só com permissão).
          Rotas privadas (/admin, /_*) não são enviadas. -->
     <script>
-      window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
-      window.va('beforeSend', function (e) {
-        var p = new URL(e.url).pathname;
-        return /^\/admin(\/|$)/.test(p) || p.indexOf('/_') === 0 ? null : e;
-      });
+      // Navegadores da equipe fora da contagem: ?eu=1 marca (localStorage 'stu_eu'), ?eu=0 desmarca, /admin marca.
+      // Visitantes comuns continuam sem nada gravado.
+      (function () {
+        var EU = 'stu_eu';
+        var m = /[?&]eu=([01])(?:&|$)/.exec(location.search);
+        try {
+          if (m) { if (m[1] === '1') localStorage.setItem(EU, '1'); else localStorage.removeItem(EU); }
+          if (/^\/admin(\/|$)/.test(location.pathname)) localStorage.setItem(EU, '1');
+        } catch (_) { /* navegação privada */ }
+        if (m) {
+          var q = location.search.replace(/([?&])eu=[01](&|$)/, function (_, a, b) { return b ? a : ''; }).replace(/[?&]$/, '');
+          history.replaceState(history.state, '', location.pathname + q + location.hash);
+          var d = document.createElement('div');
+          d.setAttribute('role', 'status');
+          d.textContent = m[1] === '1' ? 'Este navegador não conta mais nas visitas.' : 'Este navegador voltou a contar nas visitas.';
+          d.style.cssText = 'position:fixed;left:50%;bottom:calc(16px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);z-index:2147483647;' +
+            'background:#060C1E;color:#E8E3DC;border-left:2px solid #FFD60A;padding:12px 16px;font:500 14px/1.4 system-ui,sans-serif;max-width:calc(100% - 32px)';
+          document.body.appendChild(d);
+          setTimeout(function () { d.remove(); }, 4000);
+        }
+        function daEquipe() { try { return localStorage.getItem(EU) === '1'; } catch (_) { return false; } }
+        window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
+        window.va('beforeSend', function (e) {
+          var p = new URL(e.url).pathname;
+          if (/^\/admin(\/|$)/.test(p)) { try { localStorage.setItem(EU, '1'); } catch (_) {} }
+          return daEquipe() || /^\/admin(\/|$)/.test(p) || p.indexOf('/_') === 0 ? null : e;
+        });
+      })();
     </script>
     <script defer src="/_vercel/insights/script.js"></script>
   </body>
